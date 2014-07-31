@@ -14,14 +14,6 @@ module Concerns
       JWT.encode({user_id: id, api_token: api_token}, Rails.application.secrets.secret_key_base)
     end
 
-    def as_json_with_authorization_token(options={})
-      json_hash = as_json_without_authorization_token(options)
-      json_hash["authorization_token"] = issue_token
-      json_hash
-    end
-
-    alias_method_chain :as_json, :authorization_token
-
     module ClassMethods
       def api_user(token)
         begin
